@@ -69,8 +69,8 @@ jobs:
         - name: Generate Random Thread ID
           id: generate-thread-id
           run: |
-            # Generate a random 64-bit integer
-            THREAD_ID=$(printf "%016x%016x" $RANDOM $RANDOM)
+            # Generate a shorter random ID prefixed with 'log-'
+            THREAD_ID="log-$(tr -dc 'a-z0-9' < /dev/urandom | head -c 4)"
             echo "thread_id=$THREAD_ID" >> $GITHUB_OUTPUT
 
         - name: Notify Discord
