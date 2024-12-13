@@ -73,7 +73,8 @@ jobs:
           uses: tsickert/discord-webhook@v6.0.0
           with:
             webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-            thread-id: ${{ env.THREAD_ID }}
+            thread-id: 123456789012345678
+            thread-name: "Docker Hub"
             embed-title: "WordPress Bedrock Build Notification"
             embed-description: |
               **Build Status:** ${{ needs.build-and-push.result == 'success' && '✅ Success' || '❌ Failure' }}
