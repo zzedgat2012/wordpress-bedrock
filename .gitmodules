@@ -1,0 +1,3 @@
+[submodule "minio-keygen"]
+	path = minio-keygen
+	url = https://github.com/iwittkau/minio-keygen.git
