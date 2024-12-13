@@ -60,6 +60,7 @@ jobs:
           repository: fydron/wordpress-bedrock
           readme-filepath: ./wordpress-bedrock/README.md
 
+  # Adds logs to dicord channel
   notify:
       needs: build-and-push
       runs-on: ubuntu-latest
