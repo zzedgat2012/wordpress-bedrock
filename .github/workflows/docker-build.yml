@@ -65,31 +65,27 @@ jobs:
       runs-on: ubuntu-latest
       if: always()
       steps:
-        - name: Prepare Notification Message
-          id: prepare-message
+        - name: Generate Random Thread ID
+          id: generate-thread-id
           run: |
-            if [ "${{ needs.build-and-push.result }}" == "success" ]; then
-              echo "status=✅ Success" >> $GITHUB_OUTPUT
-              echo "color=3066993" >> $GITHUB_OUTPUT
-            else
-              echo "status=❌ Failure" >> $GITHUB_OUTPUT
-              echo "color=15158332" >> $GITHUB_OUTPUT
-            fi
+            # Generate a random 64-bit integer
+            THREAD_ID=$(printf "%016x%016x" $RANDOM $RANDOM)
+            echo "thread_id=$THREAD_ID" >> $GITHUB_OUTPUT
 
         - name: Notify Discord
-          uses: tsickert/discord-webhook@v5.3.0
+          uses: tsickert/discord-webhook@v6.0.0
           with:
             webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-            thread-name: "Build Logs - ${{ github.sha }}"
+            thread-id: ${{ steps.generate-thread-id.outputs.thread_id }}
             embed-title: "WordPress Bedrock Build Notification"
             embed-description: |
-              **Build Status:** ${{ steps.prepare-message.outputs.status }}
+              **Build Status:** ${{ needs.build-and-push.result == 'success' && '✅ Success' || '❌ Failure' }}
 
               **Workflow Details:**
               - Repository: ${{ github.repository }}
               - Branch: ${{ github.ref_name }}
               - Commit: ${{ github.sha }}
               - Triggered By: ${{ github.actor }}
-            embed-color: ${{ steps.prepare-message.outputs.color }}
+            embed-color: ${{ needs.build-and-push.result == 'success' && '3066993' || '15158332' }}
             content: |
               Build notification for WordPress Bedrock Docker images
