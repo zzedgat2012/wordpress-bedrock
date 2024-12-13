@@ -2,9 +2,9 @@
 FROM php:8.1-fpm
 
 # Logo
-LABEL org.opencontainers.image.title="Your Image Title"
-LABEL org.opencontainers.image.description="Description of your image"
-LABEL org.opencontainers.image.logo="https://url-to-your-logo.png"
+LABEL org.opencontainers.image.title="Bedrock"
+LABEL org.opencontainers.image.description="Bedrock Logo"
+LABEL org.opencontainers.image.logo="https://github.com/zzedgat2012/wordpress-bedrock/blob/main/wordpress-bedrock/logo/logo.png"
 # Add Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
